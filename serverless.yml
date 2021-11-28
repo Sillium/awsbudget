@@ -75,7 +75,7 @@ functions:
                 aws_access_key_id: true
                 aws_secret_access_key: true
           caching:
-            enabled: false
+            enabled: true
             cacheKeyParameters:
               - name: request.path.accountId
               - name: request.path.budgetName
