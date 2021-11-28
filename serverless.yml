@@ -4,12 +4,8 @@ service: awsbudget
 
 frameworkVersion: '2'
 
-# package:
-#   individually: false
-#   exclude:
-#     - ./**
-#   include:
-#     - functions/**
+package:
+  individually: true
 
 custom:
   stage: ${opt:stage}
@@ -60,6 +56,11 @@ functions:
     memorySize: 512
     timeout: 30
     handler: functions/getBudget.handle
+    package:
+      exclude:
+        - ./**
+      include:
+        - functions/getBudget.py
     events:
       - http:
           path: /{accountId}/{budgetName}
