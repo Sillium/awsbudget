@@ -4,12 +4,12 @@ service: awsbudget
 
 frameworkVersion: '2'
 
-package:
-  individually: false
-  exclude:
-    - ./**
-  include:
-    - functions/**
+# package:
+#   individually: false
+#   exclude:
+#     - ./**
+#   include:
+#     - functions/**
 
 custom:
   stage: ${opt:stage}
