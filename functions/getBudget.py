@@ -77,7 +77,7 @@ def handle(event, context):
         )
 
         iam_response = iam_client_assumed.list_account_aliases()
-        account_alias = iam_response['AccountAliases'][0]
+        account_alias = iam_response.get('AccountAliases', '')
 
         response = budgets_response['Budget']
         response['Account'] = {
