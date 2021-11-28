@@ -1,0 +1,66 @@
+org: stoerk
+app: sillium-apis
+service: awsbudget
+
+frameworkVersion: '2'
+
+package:
+  individually: false
+  exclude:
+    - ./**
+  include:
+    - functions/**
+
+custom:
+  stage: ${opt:stage}
+  apiGatewayCaching:
+    enabled: true
+    clusterSize: '0.5'
+    ttlInSeconds: 3600
+
+plugins:
+  - serverless-python-requirements
+  - serverless-domain-manager
+  - serverless-api-gateway-caching
+  - serverless-iam-roles-per-function
+
+provider:
+  name: aws
+  runtime: python3.8
+  stage: ${self:custom.stage}
+  region: 'eu-central-1'
+  logRetentionInDays: 7
+  lambdaHashingVersion: 20201221
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - s3:*
+      Resource:
+        - "arn:aws:s3:::${self:custom.s3.bucket}"
+        - "arn:aws:s3:::${self:custom.s3.bucket}/*"
+
+functions:
+  getBudget:
+    memorySize: 512
+    timeout: 30
+    handler: functions/getBudget.handle
+    events:
+      - http:
+          path: /{accountId}/{budgetName}
+          method: get
+          request:
+            parameters:
+              paths:
+                accountId: true
+                budgetName: true
+              headers:
+                aws_role_name: true
+                aws_access_key_id: true
+                aws_secret_access_key: true
+          caching:
+            enabled: false
+            cacheKeyParameters:
+              - name: request.path.accountId
+              - name: request.path.budgetName
+              - name: request.header.aws_role_name
+              - name: request.header.aws_access_key_id

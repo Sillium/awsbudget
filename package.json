@@ -1,0 +1,10 @@
+{
+    "name": "mobile-data-checker",
+    "version": "1.0.0",
+    "description": "Budget Delivery",
+    "devDependencies": {
+      "serverless-api-gateway-caching": "latest",
+      "serverless-python-requirements": "latest"
+    }
+  }
+  
