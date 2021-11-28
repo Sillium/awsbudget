@@ -15,8 +15,10 @@ custom:
   stage: ${opt:stage}
   dev: 
     domainName: awsbudget.dev.sillium.org
+    logLevel: DEBUG
   prod:
     domainName: awsbudget.sillium.org
+    logLevel: INFO
   apiGatewayCaching:
     enabled: true
     clusterSize: '0.5'
@@ -42,6 +44,9 @@ provider:
   region: 'eu-central-1'
   logRetentionInDays: 7
   lambdaHashingVersion: 20201221
+  environment:
+    LOG_LEVEL: ${self:custom.${self:custom.stage}.logLevel}
+    # S3_BUCKET: ${self:custom.s3.bucket}
   # iamRoleStatements:
   #   - Effect: Allow
   #     Action:
