@@ -14,7 +14,7 @@ ENV_LOG_LEVEL = os.environ.get('LOG_LEVEL')
 # ENV_S3_BUCKET = os.environ.get('S3_BUCKET')
 
 LOG = logging.getLogger()
-LOG.setLevel("ENV_LOG_LEVEL")
+LOG.setLevel(ENV_LOG_LEVEL)
 
 #tz = pytz.timezone('Europe/Berlin')
 
