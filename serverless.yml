@@ -5,18 +5,27 @@ service: awsbudget
 frameworkVersion: '2'
 
 package:
-  individually: false
-  exclude:
-    - ./**
-  include:
-    - functions/**
+  individually: true
 
 custom:
   stage: ${opt:stage}
+  dev: 
+    domainName: awsbudget.dev.sillium.org
+    logLevel: DEBUG
+  prod:
+    domainName: awsbudget.sillium.org
+    logLevel: INFO
   apiGatewayCaching:
     enabled: true
     clusterSize: '0.5'
     ttlInSeconds: 3600
+  customDomain:
+    domainName: ${self:custom.${self:custom.stage}.domainName}
+    basePath: ''
+    autoDomain: true
+    createRoute53Record: true
+    hostedZoneId: ${param:hostedZoneId}
+    certificateArn: ${param:certificateArn}
 
 plugins:
   - serverless-python-requirements
@@ -31,19 +40,27 @@ provider:
   region: 'eu-central-1'
   logRetentionInDays: 7
   lambdaHashingVersion: 20201221
-  iamRoleStatements:
-    - Effect: Allow
-      Action:
-        - s3:*
-      Resource:
-        - "arn:aws:s3:::${self:custom.s3.bucket}"
-        - "arn:aws:s3:::${self:custom.s3.bucket}/*"
+  environment:
+    LOG_LEVEL: ${self:custom.${self:custom.stage}.logLevel}
+    # S3_BUCKET: ${self:custom.s3.bucket}
+  # iamRoleStatements:
+  #   - Effect: Allow
+  #     Action:
+  #       - s3:*
+  #     Resource:
+  #       - "arn:aws:s3:::${self:custom.s3.bucket}"
+  #       - "arn:aws:s3:::${self:custom.s3.bucket}/*"
 
 functions:
   getBudget:
     memorySize: 512
     timeout: 30
     handler: functions/getBudget.handle
+    package:
+      exclude:
+        - ./**
+      include:
+        - functions/getBudget.py
     events:
       - http:
           path: /{accountId}/{budgetName}
@@ -64,3 +81,4 @@ functions:
               - name: request.path.budgetName
               - name: request.header.aws_role_name
               - name: request.header.aws_access_key_id
+              - name: request.header.aws_secret_access_key
