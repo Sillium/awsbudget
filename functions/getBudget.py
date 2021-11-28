@@ -73,7 +73,8 @@ def handle(event, context):
 
     iam_response = iam_client_assumed.list_account_aliases()
     LOG.debug(f"Account aliases: {json.dumps(iam_response, indent=2, sort_keys=True, default=str)}")
-    account_alias = iam_response.get('AccountAliases', '')
+    account_aliases = iam_response['AccountAliases']
+    account_alias = account_aliases[0] if len(account_aliases) > 0 else ''
 
     response = budgets_response['Budget']
     response['Account'] = {
