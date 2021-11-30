@@ -2,6 +2,8 @@
 
 Dies ist eine AWS-Lambda-Funktion, die die essentiellen Daten von AWS Budgets als JSON liefert. Sie kann bspw. als Backend für iOS Scriptable Widgets genutzt werden.
 
+![Diagramm](diagram.drawio.svg "Funktionsweise")
+
 ## Installation
 
 Die `serverless.yml` zum Deployment per Serverless Framework ist inkludiert.
