@@ -4,10 +4,9 @@
 
 const DEBUG = false
 
-// You need an IAM user + access key in 4744-billing-prd. Please contact henning.stoerk@obi.de.
 const aws_access_key_id = ""
 const aws_secret_access_key = ""
-const budgetApiEndpoint = "https://i6uz87z3yk.execute-api.eu-central-1.amazonaws.com/prod/api/"
+const budgetApiEndpoint = "https://<api_gateway_id>.execute-api.eu-central-1.amazonaws.com/prod/api/"
 
 const fontSizeBig = 13
 const fontSizeHuge = 30
@@ -37,7 +36,7 @@ async function createWidget(widgetParameter) {
     const obiImgFile = await getImage('obi.png', DEBUG)
     const awsImgFile = await getImage('aws.png', DEBUG)
 
-    // expected parameter example: { "accountId": "12345678", "budgetName": "4418-dbseks-monthly", "title1": "dbseks", "title2": "total" }
+    // expected parameter example: { "accountId": "<account_id>", "budgetName": "<budget_name>", "title1": "<project>", "title2": "<stage>" }
     let params = {};
     if (widgetParameter != null && widgetParameter.length > 0) {
         params = JSON.parse(widgetParameter);
