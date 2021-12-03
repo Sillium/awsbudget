@@ -4,8 +4,8 @@
 
 const DEBUG = false
 
-const aws_access_key_id = ""
-const aws_secret_access_key = ""
+const aws_access_key_id = "<aws_access_key_id>"
+const aws_secret_access_key = "<aws_secret_access_key>"
 const budgetApiEndpoint = "https://<api_gateway_id>.execute-api.eu-central-1.amazonaws.com/prod/api/"
 
 const fontSizeBig = 13
