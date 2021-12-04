@@ -16,9 +16,9 @@ custom:
     domainName: awsbudget.sillium.org
     logLevel: INFO
   apiGatewayCaching:
-    enabled: true
-    clusterSize: '0.5'
-    ttlInSeconds: 3600
+    enabled: false
+#    clusterSize: '0.5'
+#    ttlInSeconds: 3600
   customDomain:
     domainName: ${self:custom.${self:custom.stage}.domainName}
     basePath: ''
@@ -80,11 +80,11 @@ functions:
                 aws_role_name: true
                 aws_access_key_id: true
                 aws_secret_access_key: true
-          caching:
-            enabled: true
-            cacheKeyParameters:
-              - name: request.path.accountId
-              - name: request.path.budgetName
-              - name: request.header.aws_role_name
-              - name: request.header.aws_access_key_id
-              - name: request.header.aws_secret_access_key
+#          caching:
+#            enabled: true
+#            cacheKeyParameters:
+#              - name: request.path.accountId
+#              - name: request.path.budgetName
+#              - name: request.header.aws_role_name
+#              - name: request.header.aws_access_key_id
+#              - name: request.header.aws_secret_access_key
