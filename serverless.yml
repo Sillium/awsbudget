@@ -15,10 +15,6 @@ custom:
   prod:
     domainName: awsbudget.sillium.org
     logLevel: INFO
-  apiGatewayCaching:
-    enabled: false
-#    clusterSize: '0.5'
-#    ttlInSeconds: 3600
   customDomain:
     domainName: ${self:custom.${self:custom.stage}.domainName}
     basePath: ''
@@ -30,7 +26,6 @@ custom:
 plugins:
   - serverless-python-requirements
   - serverless-domain-manager
-  - serverless-api-gateway-caching
   - serverless-iam-roles-per-function
 
 provider:
@@ -48,14 +43,6 @@ provider:
     serverlessStage: ${self:custom.stage}
   environment:
     LOG_LEVEL: ${self:custom.${self:custom.stage}.logLevel}
-    # S3_BUCKET: ${self:custom.s3.bucket}
-  # iamRoleStatements:
-  #   - Effect: Allow
-  #     Action:
-  #       - s3:*
-  #     Resource:
-  #       - "arn:aws:s3:::${self:custom.s3.bucket}"
-  #       - "arn:aws:s3:::${self:custom.s3.bucket}/*"
 
 functions:
   getBudget:
@@ -80,11 +67,3 @@ functions:
                 aws_role_name: true
                 aws_access_key_id: true
                 aws_secret_access_key: true
-#          caching:
-#            enabled: true
-#            cacheKeyParameters:
-#              - name: request.path.accountId
-#              - name: request.path.budgetName
-#              - name: request.header.aws_role_name
-#              - name: request.header.aws_access_key_id
-#              - name: request.header.aws_secret_access_key
