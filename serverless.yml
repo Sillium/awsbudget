@@ -35,6 +35,7 @@ provider:
   region: 'eu-central-1'
   logRetentionInDays: 7
   lambdaHashingVersion: 20201221
+  deploymentBucket: sillium-apis-serverless-deployments
   stackTags:
     source: https://github.com/Sillium/awsbudget
     serverlessOrg: ${self:org}
