@@ -26,12 +26,6 @@ custom:
     createRoute53Record: true
     hostedZoneId: ${param:hostedZoneId}
     certificateArn: ${param:certificateArn}
-  stackTags:
-    source: https://github.com/Sillium/awsbudget
-    serverlessOrg: ${self:org}
-    serverlessApp: ${self:app}
-    serverlessService: ${self:service}
-    serverlessStage: ${self:custom.stage}
 
 plugins:
   - serverless-python-requirements
@@ -46,6 +40,12 @@ provider:
   region: 'eu-central-1'
   logRetentionInDays: 7
   lambdaHashingVersion: 20201221
+  stackTags:
+    source: https://github.com/Sillium/awsbudget
+    serverlessOrg: ${self:org}
+    serverlessApp: ${self:app}
+    serverlessService: ${self:service}
+    serverlessStage: ${self:custom.stage}
   environment:
     LOG_LEVEL: ${self:custom.${self:custom.stage}.logLevel}
     # S3_BUCKET: ${self:custom.s3.bucket}
