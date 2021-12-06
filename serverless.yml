@@ -10,22 +10,24 @@ package:
 custom:
   stage: ${opt:stage}
   dev: 
-    domainName: awsbudget.dev.sillium.org
+    domainName: ${self:service}.dev.sillium.org
     logLevel: DEBUG
   prod:
-    domainName: awsbudget.sillium.org
+    domainName: ${self:service}.sillium.org
     logLevel: INFO
-  customDomain:
-    domainName: ${self:custom.${self:custom.stage}.domainName}
-    basePath: ''
-    autoDomain: true
-    createRoute53Record: true
-    hostedZoneId: ${param:hostedZoneId}
-    certificateArn: ${param:certificateArn}
+  apiCloudFront:
+    domain: ${self:custom.${self:custom.stage}.domainName}
+    certificate: ${param:certificateArn}
+    logging:
+      bucket: sillium-apis-cloudfront-logs.s3.amazonaws.com
+      prefix: ${self:service}
+    cookies: none
+  pythonRequirements:
+    pythonBin: python3
 
 plugins:
   - serverless-python-requirements
-  - serverless-domain-manager
+  - serverless-api-cloudfront
   - serverless-iam-roles-per-function
 
 provider:
@@ -58,7 +60,7 @@ functions:
     events:
       - http:
           path: /{accountId}/{budgetName}
-          method: get
+          method: GET
           request:
             parameters:
               paths:
