@@ -1,6 +1,6 @@
 org: stoerk
-app: sillium-apis
-service: awsbudget
+app: sillium-awsbudgetwidget
+service: awsbudgetwidget
 
 frameworkVersion: '2'
 
@@ -10,16 +10,16 @@ package:
 custom:
   stage: ${opt:stage}
   dev: 
-    domainName: ${self:service}.dev.sillium.org
+    domainName: dev.${self:service}.sillium.xyz
     logLevel: DEBUG
   prod:
-    domainName: ${self:service}.sillium.org
+    domainName: ${self:service}.sillium.xyz
     logLevel: INFO
   apiCloudFront:
     domain: ${self:custom.${self:custom.stage}.domainName}
     certificate: ${param:certificateArn}
     logging:
-      bucket: sillium-apis-cloudfront-logs.s3.amazonaws.com
+      bucket: cloudfront-logs-${param:accountId}.s3.amazonaws.com
       prefix: ${self:service}/${self:custom.stage}
     cookies: none
   pythonRequirements:
@@ -28,7 +28,6 @@ custom:
 plugins:
   - serverless-python-requirements
   - serverless-api-cloudfront
-  - serverless-iam-roles-per-function
 
 provider:
   name: aws
@@ -37,9 +36,9 @@ provider:
   region: 'eu-central-1'
   logRetentionInDays: 7
   lambdaHashingVersion: 20201221
-  deploymentBucket: sillium-apis-serverless-deployments
+  deploymentBucket: serverless-deployments-${param:accountId}
   stackTags:
-    source: https://github.com/Sillium/awsbudget
+    source: https://github.com/Sillium/awsbudgetwidget
     serverlessOrg: ${self:org}
     serverlessApp: ${self:app}
     serverlessService: ${self:service}
